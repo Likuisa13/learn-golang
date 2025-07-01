@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/likuisa13/learn-golang/section-2/5-oop/example-di/usecase"
-)
+import "github.com/likuisa13/learn-golang/section-2/5-oop/example-di/usecase"
 
 // Contoh Dependency Injection
 func main() {
