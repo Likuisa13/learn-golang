@@ -1,0 +1,19 @@
+meta {
+  name: Update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{url}}/api/v1/todo-list-category/2
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name" : "Bussiness",
+    "description" : "Pekerjaan Bisnis",
+    "doing_at" : "2025-07-08"
+  }
+}
