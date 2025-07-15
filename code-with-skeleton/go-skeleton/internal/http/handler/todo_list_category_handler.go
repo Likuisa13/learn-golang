@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/rahmatrdn/go-skeleton/internal/http/middleware"
 	"github.com/rahmatrdn/go-skeleton/internal/parser"
 	"github.com/rahmatrdn/go-skeleton/internal/presenter/json"
 	todo_list_category_usecase "github.com/rahmatrdn/go-skeleton/internal/usecase/todo_list_category"
@@ -26,10 +27,10 @@ func NewTodoListCategoryHandler(
 }
 
 func (w *TodoListCategoryHandler) Register(app fiber.Router) {
-	app.Get("/todo-list-category/:id", w.GetByID)
-	app.Get("/todo-list-category", w.GetAll)
-	app.Post("/todo-list-category", w.Create)
-	app.Put("/todo-list-category/:id", w.Update)
+	app.Get("/todo-list-category/:id", middleware.VerifyJWTToken, w.GetByID)
+	app.Get("/todo-list-category", middleware.VerifyJWTToken, w.GetAll)
+	app.Post("/todo-list-category", middleware.VerifyJWTToken, w.Create)
+	app.Put("/todo-list-category/:id", middleware.VerifyJWTToken, w.Update)
 	app.Delete("/todo-list-category/:id", w.Delete)
 }
 
