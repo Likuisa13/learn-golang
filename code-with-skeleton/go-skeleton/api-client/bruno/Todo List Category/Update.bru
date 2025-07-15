@@ -7,7 +7,11 @@ meta {
 put {
   url: {{url}}/api/v1/todo-list-category/2
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTI4MTUyNjcsInVzZXJfaWQiOjEwLCJlbWFpbCI6ImR3aWtpQGdtYWlsLmNvbSIsInJvbGUiOjF9.qhQMjQ_2gBZdPG_gqkjY9i9qzia4dRlokyaL6diBYda2eBRtkaSuuYkLZY1bS_iED2P-Zkm9TWzhODATCllMyDcVDO9bNS9IjkmhxmBsJbsmZpHb6Fz5DIXh5cYJ6pD7bVpnAgysjOFiAgRAILoLepZlVwHyFYtrUS8dMB8tETc
 }
 
 body:json {
