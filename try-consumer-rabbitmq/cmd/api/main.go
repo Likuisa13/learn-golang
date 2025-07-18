@@ -64,10 +64,10 @@ func main() {
 	parser := parser.NewParser()
 
 	// RabbitMQ Configuration (if needed)
-	// queue, err := config.NewRabbitMQInstance(context.Background(), &cfg.RabbitMQOption)
-	// if err != nil {zp
-	// 	log.Fatal(err)
-	// }
+	queue, err := config.NewRabbitMQInstance(context.Background(), &cfg.RabbitMQOption)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Redis Configuration (if needed)
 	// redisDB := config.NewRedis(&cfg.RedisOption)
@@ -95,7 +95,7 @@ func main() {
 
 	// USECASE : Write bussines logic code here (validation, business logic, etc.)
 	// _ = usecase.NewLogUsecase(queue)  // LogUsecase is a sample usecase for sending log to queue (Mongodb, ElasticSearch, etc.)
-	userUsecase := usecase.NewUserUsecase(userRepo, jwtAuth)
+	userUsecase := usecase.NewUserUsecase(userRepo, jwtAuth, queue)
 	crudTodoListUsecase := todo_list_usecase.NewCrudTodoListUsecase(todoListRepo)
 
 	api := app.Group("/api/v1")

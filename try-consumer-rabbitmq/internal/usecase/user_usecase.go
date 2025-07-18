@@ -9,6 +9,7 @@ import (
 	apperr "github.com/rahmatrdn/go-skeleton/error"
 	"github.com/rahmatrdn/go-skeleton/internal/helper"
 	"github.com/rahmatrdn/go-skeleton/internal/http/auth"
+	"github.com/rahmatrdn/go-skeleton/internal/queue"
 	"github.com/rahmatrdn/go-skeleton/internal/repository/mysql"
 	mentity "github.com/rahmatrdn/go-skeleton/internal/repository/mysql/entity"
 	"golang.org/x/crypto/bcrypt"
@@ -17,13 +18,15 @@ import (
 type User struct {
 	userRepo mysql.UserRepository
 	jwtAuth  auth.JWTAuth
+	queue    queue.Queue
 }
 
 func NewUserUsecase(
 	userRepo mysql.UserRepository,
 	jwtAuth auth.JWTAuth,
+	queue queue.Queue,
 ) *User {
-	return &User{userRepo, jwtAuth}
+	return &User{userRepo, jwtAuth, queue}
 }
 
 type UserUsecase interface {
@@ -97,6 +100,12 @@ func (w *User) CreateAsGuest(ctx context.Context, createUserReq *entity.CreateUs
 	if err != nil {
 		helper.LogError("userRepo.Create", funcName, err, captureFieldError, "")
 
+		return nil, err
+	}
+
+	message, _ := helper.Serialize(user)
+	err = w.queue.Publish(queue.ProcessRegistration, message, 1)
+	if err != nil {
 		return nil, err
 	}
 

@@ -22,7 +22,7 @@ func NewRegistrationConsumer(
 }
 
 func (l *RegistrationQueue) Process(payload map[string]interface{}) error {
-	var params entity.Log
+	var params entity.CreateUserReq
 	params.LoadFromMap(payload)
 
 	helper.Dump(params)

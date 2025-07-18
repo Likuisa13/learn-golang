@@ -1,6 +1,10 @@
 package entity
 
-import "github.com/golang-jwt/jwt/v4"
+import (
+	"encoding/json"
+
+	"github.com/golang-jwt/jwt/v4"
+)
 
 type UserRole int8
 
@@ -40,6 +44,15 @@ type CreateUserReq struct {
 	Phone           string `json:"phone" validate:"required" name:"Nomor Telepon"`
 	RoleAccess      int8   `json:"role_access" validate:"required" name:"Hak Akses"`
 }
+
+func (c *CreateUserReq) LoadFromMap(m map[string]interface{}) error {
+	data, err := json.Marshal(m)
+	if err == nil {
+		err = json.Unmarshal(data, c)
+	}
+	return err
+}
+
 type CreateUserResponse struct {
 	UserID     int64  `json:"user_id"`
 	Name       string `json:"name"`
